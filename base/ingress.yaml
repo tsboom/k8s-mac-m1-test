@@ -1,26 +1,24 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: mac-m1-test
+  name: mac-m1-test-ingress
   annotations:
-    kubernetes.io/ingress-class: nginx
-    cert-manager.io/cluster-issuer: letsencrypt
-    nginx.ingress.kubernetes.io/rewrite-target: "/"
-    # nginx.ingress.kubernetes.io/configuration-snippet: |
-    #   rewrite /mypath/(.*) /$1 break;
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt"
+
 spec:
   tls:
-    - secretName: mac-m1-test.sandbox.lib.umd.edu-tls-secret
-      hosts:
-      - mac-m1-test.sandbox.lib.umd.edu
+    - hosts:
+        - mac-m1-test.sandbox.lib.umd.edu
+      secretName: mac-m1-test.sandbox.lib.umd.edu-jasperserver-pro-tls-secret
   rules:
-  - host: mac-m1-test.sandbox.lib.umd.edu
-    http:
-      paths:
-      - path: /
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: mac-m1-test
-            port:
-              number: 80
+    - host:  mac-m1-test.sandbox.lib.umd.edu
+      http:
+        paths:
+          - backend:
+              service:
+                name: mac-m1-test
+                port:
+                  number: 80
+            path: /
+            pathType: ImplementationSpecific
