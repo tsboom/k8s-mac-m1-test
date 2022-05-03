@@ -23,12 +23,14 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: hello-world
+      app: mac-m1-test
   template:
     metadata:
       labels:
-        app: hello-world
+        app: mac-m1-test
     spec:
+      imagePullSecrets:
+      - name: regcred
       containers:
       - name: mac-m1-test
         image: docker.lib.umd.edu/mac-m1-test:latest
