@@ -1,0 +1,21 @@
+# Base Kustomization YAML
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Labels to add to all resources and selectors.
+commonLabels:
+  app.kubernetes.io/part-of: nginx
+  part-of: mac-m1-test
+
+# Namespace
+namespace: sandbox
+
+# Name Suffix
+# nameSuffix: -your_suffix
+
+# The resources to include in kustomization
+resources:
+  - ./deployment.yaml
+  - ./service.yaml
+  - ./ingress.yaml
+  - ./network-policy.yaml

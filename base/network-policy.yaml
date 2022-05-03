@@ -1,0 +1,15 @@
+# Allow eternal HTTP traffic (ingress) to nginx pod
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: mac-m1-test-allow-external-http-to-nginx
+spec:
+  podSelector:
+    matchLabels:
+      app: mac-m1-test
+  policyTypes:
+  - Ingress
+  ingress:
+  - from: []
+    ports:
+      - port: 80

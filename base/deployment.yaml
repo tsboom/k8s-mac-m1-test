@@ -1,0 +1,53 @@
+# # ConfigMap for a static hello world html file
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: mac-m1-test-configmap
+# data:
+#   index.html: |-
+#     <!DOCTYPE html>
+#     <html>
+#         <head>
+#             <title>Hello, World!</title>
+#         </head>
+#         <body>
+#             <p>Hello, World! K8s deployment</p>
+#         </body>
+#     </html>
+---
+# Deployment for a simple nginx pod
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mac-m1-test
+spec:
+  selector:
+    matchLabels:
+      app: hello-world
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+      - name: mac-m1-test
+        image: docker.lib.umd.edu/mac-m1-test:latest
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+        # volumeMounts:
+        #   - name: index-file-configmap
+        #     subPath: index.html
+        #     mountPath: /usr/share/nginx/html/index.html
+
+        securityContext:
+          allowPrivilegeEscalation: false
+
+      # volumes:
+      #   - name: index-file-configmap
+      #     configMap:
+      #       name: mac-m1-test-configmap
